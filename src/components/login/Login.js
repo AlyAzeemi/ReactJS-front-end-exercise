@@ -30,6 +30,7 @@ const Login = () => {
       //CallLoginFunc
 
       try {
+        /*
         const credentials = { email, password };
         const res = await axios.post(
           "https://whispering-headland-59794.herokuapp.com/api/signup",
@@ -42,6 +43,7 @@ const Login = () => {
           console.log("Set cookies. \n Change state. \n Redirect. \n");
         } else {
         }
+        */
       } catch (e) {
         console.log(e);
       }
