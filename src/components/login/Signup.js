@@ -40,14 +40,12 @@ const Signup = () => {
 
       //CallSignUpFunc
       try {
-        const credentials = { email, username, password };
-        /*
+        const credentials = { email, username, password, password2 };
         const res = await axios.post(
-          "https://whispering-headland-59794.herokuapp.com/api/signup",
+          "http://localhost:5000/api/signup",
           credentials
         );
         console.log(res);
-        */
       } catch (e) {
         setIncorrectSubmission(true);
         setErrMessage(e);
