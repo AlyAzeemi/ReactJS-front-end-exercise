@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Redirect } from "react-router";
 const axios = require("axios").default;
 
 const Signup = () => {
@@ -8,7 +9,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [incorrectSubmission, setIncorrectSubmission] = useState(false);
-  const [errMessage, setErrMessage] = useState("");
+  const [message, setMessage] = useState("");
   const passwordStrength = new RegExp("(?=.{8,})");
   const emailRE =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -16,27 +17,27 @@ const Signup = () => {
   const submitCredentials = async (f) => {
     f.preventDefault();
     if (!email) {
-      setErrMessage("No email provided");
+      setMessage("No email provided");
       setIncorrectSubmission(true);
     } else if (!emailRE.test(email)) {
-      setErrMessage("Invalid email");
+      setMessage("Invalid email");
       setIncorrectSubmission(true);
     } else if (!username) {
-      setErrMessage("No username provided");
+      setMessage("No username provided");
       setIncorrectSubmission(true);
     } else if (!password) {
-      setErrMessage("No password submitted");
+      setMessage("No password submitted");
       setIncorrectSubmission(true);
     } else if (!passwordStrength.test(password)) {
-      setErrMessage("Password must be 8 characters or longer.");
+      setMessage("Password must be 8 characters or longer.");
       setIncorrectSubmission(true);
     } else if (password !== password2) {
-      setErrMessage("Passwords do not match");
+      setMessage("Passwords do not match");
       setIncorrectSubmission(true);
     } else {
       //Clear variables anyways
       setIncorrectSubmission(false);
-      setErrMessage("");
+      setMessage("");
 
       //CallSignUpFunc
       try {
@@ -45,10 +46,17 @@ const Signup = () => {
           "http://localhost:5000/api/signup",
           credentials
         );
-        console.log(res);
+        if (res.data.success) {
+          setIncorrectSubmission(false);
+          setMessage(res.data.message);
+          return <Redirect to="../login" />;
+        } else {
+          setIncorrectSubmission(true);
+          setMessage(res.data.message);
+        }
       } catch (e) {
         setIncorrectSubmission(true);
-        setErrMessage(e);
+        setMessage(e);
       }
     }
   };
@@ -102,8 +110,10 @@ const Signup = () => {
           />
         </div>
         <input type="submit" value="Signup" className="btn btn-block" />
-        {incorrectSubmission && (
-          <small style={{ color: "red" }}>{errMessage}</small>
+        {incorrectSubmission ? (
+          <small style={{ color: "red" }}>{message}</small>
+        ) : (
+          <small style={{ color: "green" }}>{message}</small>
         )}
       </form>
 
