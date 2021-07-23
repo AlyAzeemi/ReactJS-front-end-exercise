@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 const axios = require("axios").default;
 
 const Signup = () => {
@@ -46,15 +46,17 @@ const Signup = () => {
           "http://localhost:5000/api/signup",
           credentials
         );
+        console.log(res);
         if (res.data.success) {
           setIncorrectSubmission(false);
           setMessage(res.data.message);
-          return <Redirect to="../login" />;
+          //return <Redirect to="../login" />;
         } else {
           setIncorrectSubmission(true);
           setMessage(res.data.message);
         }
       } catch (e) {
+        console.log(`Error during`);
         setIncorrectSubmission(true);
         setMessage(e);
       }
