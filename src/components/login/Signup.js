@@ -1,20 +1,34 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+const axios = require("axios").default;
 
 const Signup = () => {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [incorrectSubmission, setIncorrectSubmission] = useState(false);
   const [errMessage, setErrMessage] = useState("");
+  const passwordStrength = new RegExp("(?=.{8,})");
+  const emailRE =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  const submitCredentials = (f) => {
+  const submitCredentials = async (f) => {
     f.preventDefault();
     if (!email) {
       setErrMessage("No email provided");
       setIncorrectSubmission(true);
+    } else if (!emailRE.test(email)) {
+      setErrMessage("Invalid email");
+      setIncorrectSubmission(true);
+    } else if (!username) {
+      setErrMessage("No username provided");
+      setIncorrectSubmission(true);
     } else if (!password) {
       setErrMessage("No password submitted");
+      setIncorrectSubmission(true);
+    } else if (!passwordStrength.test(password)) {
+      setErrMessage("Password must be 8 characters or longer.");
       setIncorrectSubmission(true);
     } else if (password !== password2) {
       setErrMessage("Passwords do not match");
@@ -25,13 +39,16 @@ const Signup = () => {
       setErrMessage("");
 
       //CallSignUpFunc
-      //const res = fetch('insertAPIEndPointHere',{});
-      let res = false;
-      if (res) {
-        //Redirect
-      } else {
+      try {
+        const credentials = { email, username, password };
+        const res = await axios.post(
+          "https://whispering-headland-59794.herokuapp.com/api/signup",
+          credentials
+        );
+        console.log(res);
+      } catch (e) {
         setIncorrectSubmission(true);
-        setErrMessage(res);
+        setErrMessage(e);
       }
     }
   };
@@ -45,6 +62,18 @@ const Signup = () => {
             value={email}
             onChange={(val) => {
               setEmail(val.target.value);
+            }}
+            required
+          />
+        </div>
+
+        <div className="form-control">
+          <label>Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(val) => {
+              setUsername(val.target.value);
             }}
             required
           />
@@ -76,7 +105,6 @@ const Signup = () => {
         {incorrectSubmission && (
           <small style={{ color: "red" }}>{errMessage}</small>
         )}
-        <Link to="../resetPassword">Forgot password?</Link>
       </form>
 
       <Link to="../login">

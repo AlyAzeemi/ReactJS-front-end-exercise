@@ -2,7 +2,9 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <Link to="/">
-      <header>Logo</header>
+      <header>
+        <h2>Logo</h2>
+      </header>
     </Link>
   );
 };

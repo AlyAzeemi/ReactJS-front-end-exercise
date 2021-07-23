@@ -1,25 +1,49 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+const axios = require("axios").default;
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [incorrectSubmission, setIncorrectSubmission] = useState(false);
   const [errMessage, setErrMessage] = useState("");
+  const emailRE =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  const submitCredentials = (f) => {
+  const submitCredentials = async (f) => {
+    //Validation Checks
     f.preventDefault();
     if (!email) {
-      alert("Email cannot be left empty");
+      setErrMessage("No email provided");
+      setIncorrectSubmission(true);
+    } else if (!emailRE.test(email)) {
+      setErrMessage("Invalid email");
+      setIncorrectSubmission(true);
     } else if (!password) {
-      alert("No password provided");
+      setErrMessage("No password submitted");
+      setIncorrectSubmission(true);
     } else {
+      //Clear variables anyways
+      setIncorrectSubmission(false);
+      setErrMessage("");
+
       //CallLoginFunc
-      const res = false;
-      if (res) {
-        //Redirect
-      } else {
-        setIncorrectSubmission(true);
-        setErrMessage(res);
+
+      try {
+        const credentials = { email, password };
+        const res = await axios.post(
+          "https://whispering-headland-59794.herokuapp.com/api/signup",
+          credentials
+        );
+        if (res.status === 200) {
+          //SetCookiesAndChangeState
+          //Redirect
+          console.log(res);
+          console.log("Set cookies. \n Change state. \n Redirect. \n");
+        } else {
+        }
+      } catch (e) {
+        console.log(e);
       }
     }
   };
@@ -53,6 +77,7 @@ const Login = () => {
         {incorrectSubmission && (
           <small style={{ color: "red" }}>{errMessage}</small>
         )}
+        <Link to="../resetPassword">Forgot password?</Link>
       </form>
       <Link to="../signup">
         <button className="btn btn-block">Don't have an account? Signup</button>
