@@ -57,6 +57,7 @@ const Signup = () => {
           setMessage(res.message);
           //return <Redirect to="../login" />;
         } else {
+          console.log("ah so ka");
           setIncorrectSubmission(true);
           setMessage(res.message);
         }
