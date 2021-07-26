@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
-const axios = require("axios").default;
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -41,22 +40,28 @@ const Signup = () => {
 
       //CallSignUpFunc
       try {
+        //Contact API
         const credentials = { email, username, password, password2 };
-        const res = await axios.post(
-          "http://localhost:5000/api/signup",
-          credentials
-        );
-        console.log(res);
-        if (res.data.success) {
+        let res = await fetch("http://localhost:5000/api/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(credentials),
+        });
+        res = await res.json();
+
+        //Process response
+        if (res.success) {
           setIncorrectSubmission(false);
-          setMessage(res.data.message);
+          setMessage(res.message);
           //return <Redirect to="../login" />;
         } else {
           setIncorrectSubmission(true);
-          setMessage(res.data.message);
+          setMessage(res.message);
         }
       } catch (e) {
-        console.log(`Error during`);
+        console.log(`Error during:${e}`);
         setIncorrectSubmission(true);
         setMessage(e);
       }
