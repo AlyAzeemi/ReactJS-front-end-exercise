@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Redirect } from "react-router-dom";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +11,36 @@ const Signup = () => {
   const passwordStrength = new RegExp("(?=.{8,})");
   const emailRE =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  const callSignupAPI = async (email, username, password, password2) => {
+    try {
+      //Contact API
+      const credentials = { email, username, password, password2 };
+      let res = await fetch("http://localhost:5000/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+      res = await res.json();
+
+      //Process response
+      if (res.success) {
+        setIncorrectSubmission(false);
+        setMessage(res.message);
+        //return <Redirect to="../login" />;
+      } else {
+        console.log("ah so ka");
+        setIncorrectSubmission(true);
+        setMessage(res.message);
+      }
+    } catch (e) {
+      console.log(`Error during:${e}`);
+      setIncorrectSubmission(true);
+      setMessage(e);
+    }
+  };
 
   const submitCredentials = async (f) => {
     f.preventDefault();
@@ -39,33 +68,7 @@ const Signup = () => {
       setMessage("");
 
       //CallSignUpFunc
-      try {
-        //Contact API
-        const credentials = { email, username, password, password2 };
-        let res = await fetch("http://localhost:5000/api/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(credentials),
-        });
-        res = await res.json();
-
-        //Process response
-        if (res.success) {
-          setIncorrectSubmission(false);
-          setMessage(res.message);
-          //return <Redirect to="../login" />;
-        } else {
-          console.log("ah so ka");
-          setIncorrectSubmission(true);
-          setMessage(res.message);
-        }
-      } catch (e) {
-        console.log(`Error during:${e}`);
-        setIncorrectSubmission(true);
-        setMessage(e);
-      }
+      await callSignupAPI(email, username, password, password2);
     }
   };
   return (

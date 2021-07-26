@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-const axios = require("axios").default;
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -26,10 +25,6 @@ const Login = () => {
       if (res.success) {
         setMessage(res.message);
         setIncorrectSubmission(false);
-        //SetCookiesAndChangeState
-        //Redirect
-        console.log(res);
-        console.log("Set cookies. \n Change state. \n Redirect. \n");
       } else {
         setMessage(res.message);
         setIncorrectSubmission(true);
@@ -96,7 +91,7 @@ const Login = () => {
           <small style={{ color: "green" }}>{message}</small>
         )}
         <br />
-        <Link to="../resetPassword">Forgot password?</Link>
+        <Link to="../resetpassword">Forgot password?</Link>
       </form>
       <Link to="../signup">
         <button className="btn btn-block">Don't have an account? Signup</button>
