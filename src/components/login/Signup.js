@@ -15,6 +15,7 @@ const Signup = () => {
   const callSignupAPI = async (email, username, password, password2) => {
     try {
       //Contact API
+      console.log("API call function launched");
       const credentials = { email, username, password, password2 };
       let res = await fetch("http://localhost:5000/api/signup", {
         method: "POST",
