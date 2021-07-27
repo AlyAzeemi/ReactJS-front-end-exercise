@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [incorrectSubmission, setIncorrectSubmission] = useState(false);
@@ -25,6 +25,7 @@ const Login = () => {
       if (res.success) {
         setMessage(res.message);
         setIncorrectSubmission(false);
+        setIsAuthenticated(true);
       } else {
         setMessage(res.message);
         setIncorrectSubmission(true);

@@ -1,6 +1,11 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+import { useState, useEffect } from "react";
 import Login from "./components/login/Login";
 import Signup from "./components/login/Signup";
 import LandingPage from "./components/login/LandingPage";
@@ -9,7 +14,10 @@ import ResetPassword from "./components/login/ResetPassword";
 import Dashboard from "./components/Dashboard";
 
 function App() {
-  const checkWhetherAuthenticated = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [JWToken, setJWToken] = useState(null);
+
+  const checkWhetherAuthenticated = async () => {
     const cookieHeader = document.cookie;
     const cookies = cookieHeader.split(";");
     let sortedCookies = {};
@@ -17,24 +25,79 @@ function App() {
       let cookie = val.split("=");
       sortedCookies[`${cookie[0].trim()}`] = cookie[1];
     });
-    console.log(sortedCookies);
-
     if (sortedCookies.JWToken) {
       setIsAuthenticated(true);
+      setJWToken(sortedCookies.JWToken);
+    } else {
+      setIsAuthenticated(false);
     }
-    return "";
   };
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    checkWhetherAuthenticated()
+      .then(() => {
+        console.log(
+          `UseEffect ran and set isAuthenticated to ${isAuthenticated}`
+        );
+      })
+      .catch((e) => console.error(`${e}`));
+  }, [isAuthenticated]);
   return (
     <Router>
       <div className="container">
         <Header />
         <Switch>
-          <Route exact path="/" component={LandingPage} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/resetpassword" component={ResetPassword} />
-          <Route path="/dashboard" component={Dashboard} />
+          <Route
+            exact
+            path="/"
+            render={(props) =>
+              isAuthenticated ? (
+                <Redirect to="/dashboard" />
+              ) : (
+                <LandingPage {...props} />
+              )
+            }
+          />
+          <Route
+            path="/login"
+            render={(props) =>
+              isAuthenticated ? (
+                <Redirect to="/dashboard" />
+              ) : (
+                <Login {...props} setIsAuthenticated={setIsAuthenticated} />
+              )
+            }
+          />
+          <Route
+            path="/signup"
+            render={(props) =>
+              isAuthenticated ? (
+                <Redirect to="/dashboard" />
+              ) : (
+                <Signup {...props} />
+              )
+            }
+          />
+          <Route
+            path="/resetpassword"
+            render={(props) =>
+              isAuthenticated ? (
+                <Redirect to="/dashboard" />
+              ) : (
+                <ResetPassword {...props} />
+              )
+            }
+          />
+          <Route
+            path="/dashboard"
+            render={(props) =>
+              isAuthenticated ? (
+                <Dashboard {...props} setIsAuthenticated={setIsAuthenticated} />
+              ) : (
+                <h1>403 Forbidden</h1>
+              )
+            }
+          />
         </Switch>
       </div>
     </Router>
