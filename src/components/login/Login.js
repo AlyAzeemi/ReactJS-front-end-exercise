@@ -96,7 +96,7 @@ const Login = ({ setIsAuthenticated }) => {
         <br />
         <Link to="../resetpassword">Forgot password?</Link>
       </form>
-      <Link to="../signup">
+      <Link to="../signup" style={{ textDecoration: "none" }}>
         <button className="btn btn-block">Don't have an account? Signup</button>
       </Link>
     </div>

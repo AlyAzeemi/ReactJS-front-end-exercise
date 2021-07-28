@@ -131,7 +131,7 @@ const Signup = () => {
         )}
       </form>
 
-      <Link to="../login">
+      <Link to="../login" style={{ textDecoration: "none" }}>
         <button className="btn btn-block">Login</button>
       </Link>
     </div>
