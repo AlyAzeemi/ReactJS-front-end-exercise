@@ -9,7 +9,6 @@ import { useState, useEffect } from "react";
 import Login from "./components/login/Login";
 import Signup from "./components/login/Signup";
 import LandingPage from "./components/login/LandingPage";
-import Header from "./components/login/Header";
 import ResetPassword from "./components/login/ResetPassword";
 import Dashboard from "./components/Dashboard";
 
@@ -42,68 +41,66 @@ function App() {
       })
       .catch((e) => console.error(`${e}`));
   }, [isAuthenticated]);
+
   return (
     <Router>
-      <div className="container">
-        <Header />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={(props) =>
-              isAuthenticated ? (
-                <Redirect to="/dashboard" />
-              ) : (
-                <LandingPage {...props} />
-              )
-            }
-          />
-          <Route
-            path="/login"
-            render={(props) =>
-              isAuthenticated ? (
-                <Redirect to="/dashboard" />
-              ) : (
-                <Login {...props} setIsAuthenticated={setIsAuthenticated} />
-              )
-            }
-          />
-          <Route
-            path="/signup"
-            render={(props) =>
-              isAuthenticated ? (
-                <Redirect to="/dashboard" />
-              ) : (
-                <Signup {...props} />
-              )
-            }
-          />
-          <Route
-            path="/resetpassword"
-            render={(props) =>
-              isAuthenticated ? (
-                <Redirect to="/dashboard" />
-              ) : (
-                <ResetPassword {...props} />
-              )
-            }
-          />
-          <Route
-            path="/dashboard"
-            render={(props) =>
-              isAuthenticated ? (
-                <Dashboard
-                  {...props}
-                  setIsAuthenticated={setIsAuthenticated}
-                  JWToken={JWToken}
-                />
-              ) : (
-                <Redirect to="/login" />
-              )
-            }
-          />
-        </Switch>
-      </div>
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={(props) =>
+            isAuthenticated ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <LandingPage {...props} />
+            )
+          }
+        />
+        <Route
+          path="/login"
+          render={(props) =>
+            isAuthenticated ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <Login {...props} setIsAuthenticated={setIsAuthenticated} />
+            )
+          }
+        />
+        <Route
+          path="/signup"
+          render={(props) =>
+            isAuthenticated ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <Signup {...props} />
+            )
+          }
+        />
+        <Route
+          path="/resetpassword"
+          render={(props) =>
+            isAuthenticated ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <ResetPassword {...props} />
+            )
+          }
+        />
+        <Route
+          path="/dashboard"
+          render={(props) =>
+            isAuthenticated ? (
+              <Dashboard
+                {...props}
+                setIsAuthenticated={setIsAuthenticated}
+                JWToken={JWToken}
+              />
+            ) : (
+              <Redirect to="/login" />
+            )
+          }
+        />
+      </Switch>
     </Router>
   );
 }

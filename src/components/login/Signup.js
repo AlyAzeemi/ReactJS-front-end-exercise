@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Header from "./Header";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -73,7 +74,8 @@ const Signup = () => {
     }
   };
   return (
-    <div>
+    <div className="container">
+      <Header />
       <form className="add-form" onSubmit={submitCredentials}>
         <div className="form-control">
           <label>Email</label>

@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+import Header from "./Header";
 
 const LandingPage = () => {
   return (
-    <div>
+    <div className="container">
+      <Header />
       <header className="header">Welcome. Pick one to proceed.</header>
       <Link to="/login">
         <button className="btn btn-block">Login</button>
