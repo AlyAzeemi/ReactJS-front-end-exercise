@@ -92,9 +92,13 @@ function App() {
             path="/dashboard"
             render={(props) =>
               isAuthenticated ? (
-                <Dashboard {...props} setIsAuthenticated={setIsAuthenticated} />
+                <Dashboard
+                  {...props}
+                  setIsAuthenticated={setIsAuthenticated}
+                  JWToken={JWToken}
+                />
               ) : (
-                <h1>403 Forbidden</h1>
+                <Redirect to="/login" />
               )
             }
           />
