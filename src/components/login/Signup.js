@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Header from "./Header";
+import signUpImage from "../../static/images/signup-image.jpg";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -74,67 +74,120 @@ const Signup = () => {
     }
   };
   return (
-    <div className="container">
-      <Header />
-      <form className="add-form" onSubmit={submitCredentials}>
-        <div className="form-control">
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(val) => {
-              setEmail(val.target.value);
-            }}
-            required
-          />
+    <section className="sign-up">
+      <div className="container">
+        <div className="signup-content">
+          <div className="signup-form">
+            <h2 className="form-title">Sign up</h2>
+            <form
+              onSubmit={submitCredentials}
+              className="register-form"
+              id="register-form"
+            >
+              <div className="form-group">
+                <label for="name">
+                  <i className="zmdi zmdi-account material-icons-name"></i>
+                </label>
+                <input
+                  type="text"
+                  name="username"
+                  id="name"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(val) => {
+                    setUsername(val.target.value);
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <label for="email">
+                  <i className="zmdi zmdi-email"></i>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Your Email"
+                  value={email}
+                  onChange={(val) => {
+                    setEmail(val.target.value);
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <label for="pass">
+                  <i className="zmdi zmdi-lock"></i>
+                </label>
+                <input
+                  type="password"
+                  name="pass"
+                  id="pass"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(val) => {
+                    setPassword(val.target.value);
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <label for="re-pass">
+                  <i className="zmdi zmdi-lock-outline"></i>
+                </label>
+                <input
+                  type="password"
+                  name="re_pass"
+                  id="re_pass"
+                  placeholder="Repeat your password"
+                  value={password2}
+                  onChange={(val) => {
+                    setPassword2(val.target.value);
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="checkbox"
+                  name="agree-term"
+                  id="agree-term"
+                  className="agree-term"
+                />
+                <label for="agree-term" className="label-agree-term">
+                  <span>
+                    <span></span>
+                  </span>
+                  I agree all statements in{" "}
+                  <Link to="/TermsOfService" className="term-service">
+                    Terms of service
+                  </Link>
+                </label>
+              </div>
+              <div className="form-group form-button">
+                <input
+                  type="submit"
+                  name="signup"
+                  id="signup"
+                  className="form-submit"
+                  value="Register"
+                />
+              </div>
+              {incorrectSubmission ? (
+                <small style={{ color: "red" }}>{message}</small>
+              ) : (
+                <small style={{ color: "green" }}>{message}</small>
+              )}
+            </form>
+          </div>
+          <div className="signup-image">
+            <figure>
+              <img src={signUpImage} alt="sing up" />
+            </figure>
+            <Link to="/login" className="signup-image-link">
+              I am already member
+            </Link>
+          </div>
         </div>
-
-        <div className="form-control">
-          <label>Username</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(val) => {
-              setUsername(val.target.value);
-            }}
-            required
-          />
-        </div>
-
-        <div className="form-control">
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(val) => {
-              setPassword(val.target.value);
-            }}
-            required
-          />
-        </div>
-        <div className="form-control">
-          <label>Confirm Password</label>
-          <input
-            type="password"
-            value={password2}
-            onChange={(val) => {
-              setPassword2(val.target.value);
-            }}
-            required
-          />
-        </div>
-        <input type="submit" value="Signup" className="btn btn-block" />
-        {incorrectSubmission ? (
-          <small style={{ color: "red" }}>{message}</small>
-        ) : (
-          <small style={{ color: "green" }}>{message}</small>
-        )}
-      </form>
-
-      <Link to="../login" style={{ textDecoration: "none" }}>
-        <button className="btn btn-block">Login</button>
-      </Link>
-    </div>
+      </div>
+    </section>
   );
 };
 

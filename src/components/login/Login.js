@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Header from "./Header";
+
+import signInImage from "../../static/images/signin-image.jpg";
 
 const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
@@ -61,45 +62,108 @@ const Login = ({ setIsAuthenticated }) => {
   };
 
   return (
-    <div className="container">
-      <Header />
-      <form className="add-form" onSubmit={submitCredentials}>
-        <div className="form-control">
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(val) => {
-              setEmail(val.target.value);
-            }}
-            required
-          />
-        </div>
+    <section className="sign-in">
+      <div className="container">
+        <div className="signin-content">
+          <div className="signin-image">
+            <figure>
+              <img src={signInImage} alt="sing up" />
+            </figure>
+            <Link to="/signup" className="signup-image-link">
+              Create an account
+            </Link>
+          </div>
 
-        <div className="form-control">
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(val) => {
-              setPassword(val.target.value);
-            }}
-            required
-          />
+          <div className="signin-form">
+            <h2 className="form-title">Sign up</h2>
+            <form
+              onSubmit={submitCredentials}
+              className="register-form"
+              id="login-form"
+            >
+              <div className="form-group">
+                <label for="your_name">
+                  <i className="zmdi zmdi-account material-icons-name"></i>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="your_name"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(val) => {
+                    setEmail(val.target.value);
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <label for="your_pass">
+                  <i className="zmdi zmdi-lock"></i>
+                </label>
+                <input
+                  type="password"
+                  name="your_pass"
+                  id="your_pass"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(val) => {
+                    setPassword(val.target.value);
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="checkbox"
+                  name="remember-me"
+                  id="remember-me"
+                  className="agree-term"
+                />
+                <label for="remember-me" className="label-agree-term">
+                  <span>
+                    <span></span>
+                  </span>
+                  Remember me
+                </label>
+              </div>
+              <div className="form-group form-button">
+                <input
+                  type="submit"
+                  name="signin"
+                  id="signin"
+                  className="form-submit"
+                  value="Log in"
+                />
+              </div>
+              {incorrectSubmission ? (
+                <small style={{ color: "red" }}>{message}</small>
+              ) : (
+                <small style={{ color: "green" }}>{message}</small>
+              )}
+            </form>
+            <div className="social-login">
+              <span className="social-label">Or login with</span>
+              <ul className="socials">
+                <li>
+                  <Link to="#">
+                    <i className="display-flex-center zmdi zmdi-facebook"></i>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="#">
+                    <i className="display-flex-center zmdi zmdi-twitter"></i>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="#">
+                    <i className="display-flex-center zmdi zmdi-google"></i>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <input type="submit" value="Login" className="btn btn-block" />
-        {incorrectSubmission ? (
-          <small style={{ color: "red" }}>{message}</small>
-        ) : (
-          <small style={{ color: "green" }}>{message}</small>
-        )}
-        <br />
-        <Link to="../resetpassword">Forgot password?</Link>
-      </form>
-      <Link to="../signup" style={{ textDecoration: "none" }}>
-        <button className="btn btn-block">Don't have an account? Signup</button>
-      </Link>
-    </div>
+      </div>
+    </section>
   );
 };
 
