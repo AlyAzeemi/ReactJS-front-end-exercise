@@ -75,7 +75,7 @@ const Login = ({ setIsAuthenticated }) => {
           </div>
 
           <div className="signin-form">
-            <h2 className="form-title">Sign up</h2>
+            <h2 className="form-title">Log In</h2>
             <form
               onSubmit={submitCredentials}
               className="register-form"

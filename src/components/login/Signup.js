@@ -78,7 +78,7 @@ const Signup = () => {
       <div className="container">
         <div className="signup-content">
           <div className="signup-form">
-            <h2 className="form-title">Sign up</h2>
+            <h2 className="form-title">Sign Up</h2>
             <form
               onSubmit={submitCredentials}
               className="register-form"
