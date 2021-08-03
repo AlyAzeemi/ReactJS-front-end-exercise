@@ -138,6 +138,7 @@ const Login = ({ setIsAuthenticated }) => {
               ) : (
                 <small style={{ color: "green" }}>{message}</small>
               )}
+              <br />
               <Link to="/resetPassword">Forgot Password?</Link>
             </form>
             <div className="social-login">

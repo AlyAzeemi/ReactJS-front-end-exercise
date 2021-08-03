@@ -20,7 +20,7 @@ function App() {
       let cookie = val.split("=");
       sortedCookies[`${cookie[0].trim()}`] = cookie[1];
     });
-    if (sortedCookies.JWToken) {
+    if (sortedCookies.JWToken !== "" && sortedCookies.JWToken !== undefined) {
       setIsAuthenticated(true);
       setJWToken(sortedCookies.JWToken);
     } else {
