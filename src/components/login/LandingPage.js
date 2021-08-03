@@ -3,7 +3,6 @@ import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 import { Container } from "@material-ui/core";
-import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,18 +12,21 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   paperSignUp: {
-    backgroundColor: "#D5BEFF",
     padding: theme.spacing(2),
     textAlign: "center",
-    width: "500",
-    height: "300",
   },
   paperLogIn: {
-    backgroundColor: "#BEFFD5",
     padding: theme.spacing(2),
     textAlign: "center",
-    width: "500",
-    height: "300",
+
+    color: "white",
+    background: "linear-gradient(to right, black 50%, white 50%)",
+    backgroundSize: "200% 100%",
+    backgroundPosition: "right bottom",
+    transition: "all .5s ease-out",
+    "&:hover": {
+      backgroundPosition: "left bottom",
+    },
   },
   control: {
     padding: theme.spacing(2),
@@ -38,11 +40,19 @@ const LandingPage = () => {
       <Grid container className={classes.root} spacing={2}>
         {["LogIn", "SignUp"].map((text) => (
           <Link to={`/${text}`} style={{ textDecoration: "none" }}>
-            <Grid item xs={12} md={6} lg={3}>
-              <Paper className={classes[`paper${text}`]} elevation={3}>
-                <Typography variant="h2" style={{ color: "white" }}>
-                  {text}
-                </Typography>
+            <Grid item>
+              <Paper
+                className={classes[`paper${text}`]}
+                elevation={3}
+                onMouseOver={() => {
+                  var event = new CustomEvent(`${text}Hover`, {
+                    detail: `mouse was hovered over ${text}`,
+                  });
+                  document.dispatchEvent(event);
+                  console.log(text);
+                }}
+              >
+                <h1>{text}</h1>
               </Paper>
             </Grid>
           </Link>

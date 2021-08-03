@@ -83,12 +83,11 @@ const Login = ({ setIsAuthenticated }) => {
             >
               <div className="form-group">
                 <label for="your_name">
-                  <i className="zmdi zmdi-account material-icons-name"></i>
+                  <i className="zmdi zmdi-email"></i>
                 </label>
                 <input
                   type="email"
                   name="email"
-                  id="your_name"
                   placeholder="Email"
                   value={email}
                   onChange={(val) => {
@@ -139,6 +138,7 @@ const Login = ({ setIsAuthenticated }) => {
               ) : (
                 <small style={{ color: "green" }}>{message}</small>
               )}
+              <Link to="/resetPassword">Forgot Password?</Link>
             </form>
             <div className="social-login">
               <span className="social-label">Or login with</span>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
@@ -44,27 +45,45 @@ const ResetPassword = () => {
     await callResetPasswordAPI(email);
   };
   return (
-    <div>
-      <form className="add-form" onSubmit={submitEmail}>
-        <div className="form-control">
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(val) => {
-              setEmail(val.target.value);
-            }}
-            required
-          />
+    <section className="sign-in">
+      <div className="container">
+        <div className="signin-content">
+          <div className="signin-form">
+            <h2 className="form-title">Reset Password</h2>
+            <form className="add-form" onSubmit={submitEmail}>
+              <div className="form-group">
+                <label>
+                  <i className="zmdi zmdi-email"></i>
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(val) => {
+                    setEmail(val.target.value);
+                  }}
+                  required
+                />
+              </div>
+              <div className="form-group form-button">
+                <input
+                  type="submit"
+                  value="Reset Password"
+                  className="form-submit"
+                />
+                <br />
+                {incorrectSubmission ? (
+                  <small style={{ color: "red" }}>{message}</small>
+                ) : (
+                  <small style={{ color: "green" }}>{message}</small>
+                )}
+              </div>
+
+              <Link to="/login">Back to Login</Link>
+            </form>
+          </div>
         </div>
-        <input type="submit" value="Reset Password" className="btn btn-block" />
-        {incorrectSubmission ? (
-          <small style={{ color: "red" }}>{message}</small>
-        ) : (
-          <small style={{ color: "green" }}>{message}</small>
-        )}
-      </form>
-    </div>
+      </div>
+    </section>
   );
 };
 

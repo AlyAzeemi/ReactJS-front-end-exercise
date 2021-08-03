@@ -1,0 +1,37 @@
+<section className="sign-in">
+    <div className="container">
+        <div className="signin-content">
+            <div className="signin-image">
+                <figure>
+                    <img src={signInImage} alt="sing up" />
+                </figure>
+                <Link to="/signup" className="signup-image-link">
+                Create an account
+                </Link>
+            </div>
+            <div className="signin-form">
+                <h2 className="form-title">Log In</h2>
+                <form className="add-form" onSubmit={submitEmail}>
+                    <div className="form-control">
+                        <label>Email</label>
+                        <input type="email" value={email} onChange={(val)=> {
+                        setEmail(val.target.value);
+                        }}
+                        required
+                        />
+                    </div>
+                    <input type="submit" value="Reset Password" className="btn btn-block" />
+                    {incorrectSubmission ? (
+                    <small style={{ color: "red" }}>{message}</small>
+                    ) : (
+                    <small style={{ color: "green" }}>{message}</small>
+                    )}
+                </form>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</section>
