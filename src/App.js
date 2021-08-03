@@ -1,16 +1,12 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Login from "./components/login/Login";
 import Signup from "./components/login/Signup";
 import LandingPage from "./components/login/LandingPage";
 import ResetPassword from "./components/login/ResetPassword";
 import Dashboard from "./components/Dashboard";
+import GuardedRoute from "./middleware/GuardedRoute";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -45,60 +41,33 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route
+        <GuardedRoute
           exact
           path="/"
-          render={(props) =>
-            isAuthenticated ? (
-              <Redirect to="/dashboard" />
-            ) : (
-              <LandingPage {...props} />
-            )
-          }
+          component={LandingPage}
+          auth={isAuthenticated}
         />
-        <Route
+        <GuardedRoute
           path="/login"
-          render={(props) =>
-            isAuthenticated ? (
-              <Redirect to="/dashboard" />
-            ) : (
-              <Login {...props} setIsAuthenticated={setIsAuthenticated} />
-            )
-          }
+          component={Login}
+          compProps={{ setIsAuthenticated }}
+          auth={isAuthenticated}
         />
-        <Route
+        <GuardedRoute
           path="/signup"
-          render={(props) =>
-            isAuthenticated ? (
-              <Redirect to="/dashboard" />
-            ) : (
-              <Signup {...props} />
-            )
-          }
+          component={Signup}
+          auth={isAuthenticated}
         />
-        <Route
+        <GuardedRoute
           path="/resetpassword"
-          render={(props) =>
-            isAuthenticated ? (
-              <Redirect to="/dashboard" />
-            ) : (
-              <ResetPassword {...props} />
-            )
-          }
+          component={ResetPassword}
+          auth={isAuthenticated}
         />
-        <Route
+        <GuardedRoute
           path="/dashboard"
-          render={(props) =>
-            isAuthenticated ? (
-              <Dashboard
-                {...props}
-                setIsAuthenticated={setIsAuthenticated}
-                JWToken={JWToken}
-              />
-            ) : (
-              <Redirect to="/login" />
-            )
-          }
+          component={Dashboard}
+          compProps={{ setIsAuthenticated, JWToken }}
+          auth={isAuthenticated}
         />
       </Switch>
     </Router>

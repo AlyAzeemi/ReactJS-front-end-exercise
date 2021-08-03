@@ -1,6 +1,6 @@
 const Dashboard = ({ setIsAuthenticated, JWToken }) => {
   const logOut = async () => {
-    try{
+    try {
       let res = await fetch("http://localhost:5000/api/logout", {
         method: "POST",
         headers: {
@@ -13,11 +13,11 @@ const Dashboard = ({ setIsAuthenticated, JWToken }) => {
       if (res.success) {
         setIsAuthenticated(false);
       }
-    }catch(e){
-      console.error(`Error during log out: ${e}`)
+    } catch (e) {
+      console.error(`Error during log out: ${e}`);
     }
   };
-  
+
   return (
     <div>
       <h1>User Dashboard</h1>

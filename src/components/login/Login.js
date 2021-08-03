@@ -82,7 +82,7 @@ const Login = ({ setIsAuthenticated }) => {
               id="login-form"
             >
               <div className="form-group">
-                <label for="your_name">
+                <label>
                   <i className="zmdi zmdi-email"></i>
                 </label>
                 <input
@@ -96,7 +96,7 @@ const Login = ({ setIsAuthenticated }) => {
                 />
               </div>
               <div className="form-group">
-                <label for="your_pass">
+                <label>
                   <i className="zmdi zmdi-lock"></i>
                 </label>
                 <input
@@ -117,7 +117,7 @@ const Login = ({ setIsAuthenticated }) => {
                   id="remember-me"
                   className="agree-term"
                 />
-                <label for="remember-me" className="label-agree-term">
+                <label className="label-agree-term">
                   <span>
                     <span></span>
                   </span>

@@ -85,7 +85,7 @@ const Signup = () => {
               id="register-form"
             >
               <div className="form-group">
-                <label for="name">
+                <label>
                   <i className="zmdi zmdi-account material-icons-name"></i>
                 </label>
                 <input
@@ -100,7 +100,7 @@ const Signup = () => {
                 />
               </div>
               <div className="form-group">
-                <label for="email">
+                <label>
                   <i className="zmdi zmdi-email"></i>
                 </label>
                 <input
@@ -115,7 +115,7 @@ const Signup = () => {
                 />
               </div>
               <div className="form-group">
-                <label for="pass">
+                <label>
                   <i className="zmdi zmdi-lock"></i>
                 </label>
                 <input
@@ -130,7 +130,7 @@ const Signup = () => {
                 />
               </div>
               <div className="form-group">
-                <label for="re-pass">
+                <label>
                   <i className="zmdi zmdi-lock-outline"></i>
                 </label>
                 <input
@@ -151,7 +151,7 @@ const Signup = () => {
                   id="agree-term"
                   className="agree-term"
                 />
-                <label for="agree-term" className="label-agree-term">
+                <label className="label-agree-term">
                   <span>
                     <span></span>
                   </span>
