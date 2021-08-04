@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import Login from "./components/login/Login";
 import Signup from "./components/login/Signup";
 import LandingPage from "./components/login/LandingPage";
-import ResetPassword from "./components/login/ResetPassword";
+import ForgotPassword from "./components/login/ForgotPassword";
 import Dashboard from "./components/Dashboard";
 import GuardedRoute from "./middleware/GuardedRoute";
+import ResetPassword from "./components/login/ResetPassword";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -59,7 +60,12 @@ function App() {
           auth={isAuthenticated}
         />
         <GuardedRoute
-          path="/resetpassword"
+          path="/forgotpassword"
+          component={ForgotPassword}
+          auth={isAuthenticated}
+        />
+        <GuardedRoute
+          path="/resetpassword/:email/:ID"
           component={ResetPassword}
           auth={isAuthenticated}
         />

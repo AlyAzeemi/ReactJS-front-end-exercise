@@ -1,48 +1,38 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const ResetPassword = () => {
-  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [incorrectSubmission, setIncorrectSubmission] = useState(false);
   const [message, setMessage] = useState("");
-  const [incorrectSubmission, setIncorrectSubmission] = useState("");
-  const emailRE =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const passwordStrength = new RegExp("(?=.{8,})");
+  const { email, ID } = useParams();
 
-  const callResetPasswordAPI = async (email) => {
-    try {
-      let res = await fetch("http://localhost:5000/api/resetPassword", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-      res = await res.json();
-      if (res.success) {
-        setMessage(res.message);
-        setIncorrectSubmission(false);
-      } else {
-        setMessage(res.message);
-        setIncorrectSubmission(true);
-      }
-    } catch (e) {
-      console.log(`Error during reset API call: ${e}`);
-      setMessage(e);
-      setIncorrectSubmission(true);
-    }
-  };
-
-  const submitEmail = async (f) => {
+  const submitPassword = async (f) => {
     f.preventDefault();
-    if (!email) {
-      setMessage("No email provided");
+    if (!password) {
+      setMessage("No password submitted");
       setIncorrectSubmission(true);
-    } else if (!emailRE.test(email)) {
-      setMessage("Invalid email");
+    } else if (!passwordStrength.test(password)) {
+      setMessage("Password must be 8 characters or longer.");
       setIncorrectSubmission(true);
     }
-    //Call API
-    await callResetPasswordAPI(email);
+    let res = await fetch("http://localhost:5000/api/resetPassword", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, ID, password, password2 }),
+    });
+    res = await res.json();
+    if (res.success) {
+      setIncorrectSubmission(false);
+      setMessage(res.message);
+    } else {
+      setIncorrectSubmission(true);
+      setMessage(res.message);
+    }
   };
   return (
     <section className="sign-in">
@@ -50,18 +40,35 @@ const ResetPassword = () => {
         <div className="signin-content">
           <div className="signin-form">
             <h2 className="form-title">Reset Password</h2>
-            <form className="add-form" onSubmit={submitEmail}>
+            <form className="add-form" onSubmit={submitPassword}>
               <div className="form-group">
                 <label>
-                  <i className="zmdi zmdi-email"></i>
+                  <i className="zmdi zmdi-lock"></i>
                 </label>
                 <input
-                  type="email"
-                  value={email}
+                  type="password"
+                  name="pass"
+                  id="pass"
+                  placeholder="Password"
+                  value={password}
                   onChange={(val) => {
-                    setEmail(val.target.value);
+                    setPassword(val.target.value);
                   }}
-                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>
+                  <i className="zmdi zmdi-lock-outline"></i>
+                </label>
+                <input
+                  type="password"
+                  name="re_pass"
+                  id="re_pass"
+                  placeholder="Repeat your password"
+                  value={password2}
+                  onChange={(val) => {
+                    setPassword2(val.target.value);
+                  }}
                 />
               </div>
               <div className="form-group form-button">
@@ -77,8 +84,6 @@ const ResetPassword = () => {
                   <small style={{ color: "green" }}>{message}</small>
                 )}
               </div>
-
-              <Link to="/login">Back to Login</Link>
             </form>
           </div>
         </div>
